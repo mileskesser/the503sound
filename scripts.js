@@ -133,21 +133,7 @@ document.querySelectorAll('.magazine').forEach(magazine => {
     });
   });
 
-
-  const toggleBtn = document.getElementById('nav-toggle');
-  const nav = document.querySelector('header nav');
-
-  toggleBtn.addEventListener('click', () => {
-    nav.classList.toggle('open');
-  });
-
-  window.addEventListener('click', e => {
-    if (!nav.contains(e.target) && e.target !== toggleBtn) {
-      nav.classList.remove('open');
-    }
-  });
-
-
+  
 
   showPages([offset]);
 });
