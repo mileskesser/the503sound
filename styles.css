@@ -75,7 +75,7 @@ nav a:hover {
 }
 
 /* Responsive styles for mobile devices */
-@media (max-width: 800px) {
+@media (max-width: 750px) {
     header {
     
         flex-wrap: wrap;
