@@ -91,10 +91,8 @@ nav a:hover {
     }
 
     header img.logo {
-        max-height: 200%;
-        max-width: 200%;
-        height: 100px;
-        width: auto;
+        height: 40px;
+        max-width: 90%;
         object-fit: contain;
     }
 
