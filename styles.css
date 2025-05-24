@@ -1,4 +1,3 @@
-
 /* Reset & base */
 * {
     box-sizing: border-box;
@@ -18,9 +17,7 @@ body {
 
 /* Shared Header Styles */
 
-
 header {
-    
     background-color: #222;
     border-bottom: 2px solid #444;
     position: fixed;
@@ -39,21 +36,74 @@ header h1 {
     color: #f05;
     margin: 0;
     flex-grow: 1;
-  }
+}
 
-  nav a {
+nav a {
     color: #eee;
     margin-left: 1.5rem;
     text-decoration: none;
     font-weight: bold;
-  }
+}
 
-  nav a.active,
-  nav a:hover {
+nav a.active,
+nav a:hover {
     color: #f05;
-  }
+}
 
+/* Mobile nav toggle button (hamburger) */
+#nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: #f05;
+    font-size: 2rem;
+    cursor: pointer;
+    user-select: none;
+}
 
+/* Responsive styles for mobile devices */
+@media (max-width: 600px) {
+    header {
+        padding: 1rem;
+    }
+
+    header h1 {
+        font-size: 1.4rem;
+        flex-grow: 0;
+    }
+
+    nav {
+        position: fixed;
+        top: 60px; /* below header */
+        right: 0;
+        background-color: #222;
+        width: 200px;
+        height: calc(100vh - 60px);
+        display: flex;
+        flex-direction: column;
+        padding: 1rem;
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+        box-shadow: -4px 0 8px rgba(0,0,0,0.6);
+        z-index: 999;
+    }
+
+    nav.open {
+        transform: translateX(0);
+    }
+
+    nav a {
+        margin: 1rem 0;
+        font-size: 1.2rem;
+    }
+
+    /* Show the hamburger toggle on mobile */
+    #nav-toggle {
+        display: block;
+    }
+}
+
+/* Main content and other sections */
 
 main {
     flex: 1;
@@ -88,14 +138,13 @@ main {
     box-shadow: 0 8px 20px rgba(29,185,84,0.6);
 }
 
-
 footer {
     text-align: center;
     padding: 1rem;
     background-color: #222;
     color: #aaa;
     font-size: 0.9rem;
-  }
+}
 
 /* Flipbook */
 .flipbook-container {
@@ -118,7 +167,6 @@ footer {
     overflow: hidden;
     position: relative;
 }
-
 
 .page-label {
     margin-top: 0.8rem;
@@ -168,7 +216,6 @@ button#prevBtn:hover, button#nextBtn:hover {
     background: #17a844;
 }
 
-
 #clear-cart {
     background: #e03e2f;
     color: #fff;
@@ -179,7 +226,7 @@ button#prevBtn:hover, button#nextBtn:hover {
     font-weight: 700;
 }
 
-
+/* Flipbook mobile adjustments */
 @media (max-width: 700px) {
     .flipbook {
         flex-direction: column;
