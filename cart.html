@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cart & Payment - Portland Music Scene Magazine</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #111;
+      color: #eee;
+      margin: 0; padding: 20px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+
+main {
+    flex: 1;
+    padding: 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+    margin-top: 5%;
+}
+
+    main {
+      width: 100%;
+      max-width: 700px;
+      background: #222;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 12px #000;
+    }
+    h2 {
+      margin-top: 0;
+    }
+    #cart-items {
+      list-style: none;
+      padding: 0;
+      margin-bottom: 20px;
+    }
+    #cart-items li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid #444;
+    }
+    .item-name {
+      flex: 1;
+    }
+    .item-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    button {
+      background: #444;
+      border: none;
+      color: #eee;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #666;
+    }
+    #total {
+      font-weight: bold;
+      text-align: right;
+      margin-bottom: 20px;
+    }
+    #clear-cart {
+      background: #b03030;
+      margin-bottom: 30px;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    label {
+      display: flex;
+      flex-direction: column;
+      font-size: 14px;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="number"],
+    input[type="month"] {
+      padding: 8px;
+      border-radius: 6px;
+      border: none;
+      font-size: 16px;
+      margin-top: 4px;
+    }
+    input[type="submit"] {
+      background: #207070;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      padding: 10px;
+      border-radius: 6px;
+      border: none;
+      margin-top: 10px;
+    }
+    input[type="submit"]:hover {
+      background: #309090;
+    }
+    .empty-cart {
+      font-style: italic;
+      color: #999;
+      text-align: center;
+    }
+
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Your Cart & Payment</h1>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="monthly-issues.html">Monthly Issues</a>
+    <a href="cart.html" class="active">Cart</a>
+  </nav>
+</header>
+
+<main>
+  <section class="cart-content">
+    <h2>Items in Your Cart</h2>
+    <ul id="cart-items">
+      <li class="empty-cart">No items in cart.</li>
+    </ul>
+    <div id="total">Total: $0.00</div>
+    <button id="clear-cart">Clear Cart</button>
+  </section>
+
+  <section class="payment-section" style="display:none;">
+    <h2>Payment Details</h2>
+    <form id="payment-form">
+      <label>
+        Name on Card
+        <input type="text" id="card-name" required placeholder="Poopy McPants" />
+      </label>
+      <label>
+        Email
+        <input type="email" id="email" required placeholder="i8glu@email.com" />
+      </label>
+      <label>
+        Card Number
+        <input type="text" id="card-number" required placeholder="1234 5678 9012 3456" maxlength="19" />
+      </label>
+      <label>
+        Expiration Date
+        <input type="month" id="expiry" required />
+      </label>
+      <label>
+        CVV
+        <input type="number" id="cvv" required placeholder="123" maxlength="4" />
+      </label>
+      <input type="submit" value="Pay Now" />
+    </form>
+  </section>
+</main>
+
+
+
+<script>
+  const cartKey = "magazineCart";
+  // Assume each issue costs $1.99 for demo
+  const ITEM_PRICE = 1.99;
+
+  function loadCart() {
+    const cart = JSON.parse(localStorage.getItem(cartKey)) || [];
+    // Convert cart array to object with quantities
+    const cartObj = {};
+    cart.forEach(item => {
+      cartObj[item] = (cartObj[item] || 0) + 1;
+    });
+    return cartObj;
+  }
+
+  function saveCart(cartObj) {
+    // Flatten object back to array with repeated items based on quantity
+    const arr = [];
+    for (const [item, qty] of Object.entries(cartObj)) {
+      for (let i = 0; i < qty; i++) arr.push(item);
+    }
+    localStorage.setItem(cartKey, JSON.stringify(arr));
+  }
+
+  function renderCart() {
+    const cart = loadCart();
+    const list = document.getElementById("cart-items");
+    list.innerHTML = "";
+    const items = Object.entries(cart);
+
+    if (items.length === 0) {
+      list.innerHTML = '<li class="empty-cart">No items in cart.</li>';
+      document.getElementById("total").textContent = "Total: $0.00";
+      document.querySelector(".payment-section").style.display = "none";
+      return;
+    }
+
+    items.forEach(([name, qty]) => {
+      const li = document.createElement("li");
+
+      const nameSpan = document.createElement("span");
+      nameSpan.className = "item-name";
+      nameSpan.textContent = name;
+
+      const controls = document.createElement("div");
+      controls.className = "item-controls";
+
+      const minusBtn = document.createElement("button");
+      minusBtn.textContent = "−";
+      minusBtn.title = "Decrease quantity";
+      minusBtn.onclick = () => {
+        if (qty > 1) {
+          cart[name]--;
+          saveCart(cart);
+          renderCart();
+        } else {
+          if(confirm(`Remove "${name}" from the cart?`)) {
+            delete cart[name];
+            saveCart(cart);
+            renderCart();
+          }
+        }
+      };
+
+      const qtySpan = document.createElement("span");
+      qtySpan.textContent = qty;
+
+      const plusBtn = document.createElement("button");
+      plusBtn.textContent = "+";
+      plusBtn.title = "Increase quantity";
+      plusBtn.onclick = () => {
+        cart[name]++;
+        saveCart(cart);
+        renderCart();
+      };
+
+      controls.appendChild(minusBtn);
+      controls.appendChild(qtySpan);
+      controls.appendChild(plusBtn);
+
+      li.appendChild(nameSpan);
+      li.appendChild(controls);
+
+      list.appendChild(li);
+    });
+
+    // Update total
+    const total = items.reduce((sum, [_, qty]) => sum + qty * ITEM_PRICE, 0);
+    document.getElementById("total").textContent = `Total: $${total.toFixed(2)}`;
+
+    // Show payment form
+    document.querySelector(".payment-section").style.display = "block";
+  }
+
+  document.getElementById("clear-cart").addEventListener("click", () => {
+    if (confirm("Are you sure you want to clear the entire cart?")) {
+      localStorage.removeItem(cartKey);
+      renderCart();
+    }
+  });
+
+  // Fake payment form submit
+  document.getElementById("payment-form").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const cart = loadCart();
+    if (Object.keys(cart).length === 0) {
+      alert("Your cart is empty!");
+      return;
+    }
+    // Simple form validation could be expanded here
+    alert("Payment successful! Thank you for your purchase.");
+    localStorage.removeItem(cartKey);
+    renderCart();
+    e.target.reset();
+  });
+
+  // Initial render
+  renderCart();
+</script>
+
+<footer>
+    <p>&copy; 2025 The (503) Sound – Portland Artist Scene Magazine</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,193 @@
+
+/* Reset & base */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background: #121212;
+    color: #eee;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding-top: 60px; 
+}
+
+/* Shared Header Styles */
+
+
+header {
+    
+    background-color: #222;
+    border-bottom: 2px solid #444;
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+    box-shadow: 0 2px 6px #0009;
+    z-index: 1000;
+}
+
+header h1 {
+    font-size: 1.8rem;
+    color: #f05;
+    margin: 0;
+    flex-grow: 1;
+  }
+
+  nav a {
+    color: #eee;
+    margin-left: 1.5rem;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  nav a.active,
+  nav a:hover {
+    color: #f05;
+  }
+
+
+
+main {
+    flex: 1;
+    padding: 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.mission, .current-events {
+    margin-bottom: 3rem;
+}
+
+.mission h2, .current-events h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    border-bottom: 3px solid #1db954;
+    display: inline-block;
+    padding-bottom: 0.3rem;
+}
+
+.mission p, .current-events p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    color: #ccc;
+}
+
+.mission-img, .current-img {
+    max-width: 100%;
+    border-radius: 12px;
+    margin-top: 1rem;
+    box-shadow: 0 8px 20px rgba(29,185,84,0.6);
+}
+
+
+footer {
+    text-align: center;
+    padding: 1rem;
+    background-color: #222;
+    color: #aaa;
+    font-size: 0.9rem;
+  }
+
+/* Flipbook */
+.flipbook-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.flipbook {
+    display: flex;
+    gap: 1rem;
+    max-width: 600px;
+    min-height: 300px;
+    background: #222;
+    border-radius: 12px;
+    padding: 1rem;
+    box-shadow: 0 0 15px #1db954;
+    overflow: hidden;
+    position: relative;
+}
+
+
+.page-label {
+    margin-top: 0.8rem;
+    font-size: 1rem;
+    color: #1db954;
+}
+
+.cover-page .add-to-cart {
+    margin-top: 1rem;
+    background: #1db954;
+    border: none;
+    padding: 0.4rem 1rem;
+    border-radius: 5px;
+    color: #121212;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.cover-page .add-to-cart:hover {
+    background: #17a844;
+}
+
+.blurred-page {
+    filter: blur(6px);
+    user-select: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.1rem;
+}
+
+button#prevBtn, button#nextBtn {
+    background: #1db954;
+    border: none;
+    color: #121212;
+    font-weight: 700;
+    font-size: 1.2rem;
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    user-select: none;
+}
+
+button#prevBtn:hover, button#nextBtn:hover {
+    background: #17a844;
+}
+
+
+#clear-cart {
+    background: #e03e2f;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+
+@media (max-width: 700px) {
+    .flipbook {
+        flex-direction: column;
+        max-width: 100%;
+    }
+
+    .page {
+        width: 100% !important;
+        height: 220px;
+    }
+}
